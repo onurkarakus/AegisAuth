@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "xMP2co96hbw=",
+  "success": true,
+  "projectFilePath": "/Users/onurkarakus/Developer/MobileProjects/AegisAuth/AegisAuth.Api/AegisAuth.Api.csproj",
+  "expectedPackageFiles": [
+    "/Users/onurkarakus/.nuget/packages/microsoft.aspnetcore.openapi/10.0.3/microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
+    "/Users/onurkarakus/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
