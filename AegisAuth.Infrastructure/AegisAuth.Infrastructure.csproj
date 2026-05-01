@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../AegisAuth.Application/AegisAuth.Application.csproj" />
     <ProjectReference Include="../AegisAuth.Domain/AegisAuth.Domain.csproj" />
   </ItemGroup>
 

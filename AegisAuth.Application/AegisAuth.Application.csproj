@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../AegisAuth.Domain/AegisAuth.Domain.csproj" />
-    <ProjectReference Include="../AegisAuth.Infrastructure/AegisAuth.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
