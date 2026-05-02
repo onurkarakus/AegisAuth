@@ -7,8 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../AegisAuth.Application/AegisAuth.Application.csproj" />
     <ProjectReference Include="../AegisAuth.Domain/AegisAuth.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs/" />
+    <Folder Include="Features/" />
+    <Folder Include="Features/Auth/" />
+    <Folder Include="Features/Identity/" />
+    <Folder Include="Interfaces/" />
   </ItemGroup>
 
 </Project>

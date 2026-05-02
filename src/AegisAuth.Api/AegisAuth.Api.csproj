@@ -16,4 +16,9 @@
     <ProjectReference Include="../AegisAuth.Infrastructure/AegisAuth.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middlewares/" />
+    <Folder Include="Pages/" />
+  </ItemGroup>
+
 </Project>
