@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AegisAuth.Domain.Entities.Base;
+﻿namespace AegisAuth.Domain.Entities.Base;
 
 public abstract class BaseEntity
 {

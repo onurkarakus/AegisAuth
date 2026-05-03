@@ -2,15 +2,16 @@ using System;
 using AegisAuth.Domain.Entities.Base;
 using AegisAuth.Domain.Entities.Tenants;
 using AegisAuth.Domain.Enums;
+using AegisAuth.Domain.ValueObjects;
 
 namespace AegisAuth.Domain.Entities.Users;
 
 public class User : BaseEntity
 {
-    public Guid TenantId { get; set; }
+    public Guid? TenantId { get; set; }
 
     public UserType UserType { get; set; }
-    public string Email { get; set; }
+    public EmailAddress Email { get; set; }
     public string? NormalizedEmail { get; set; }
     public string PasswordHash { get; set; }
 
