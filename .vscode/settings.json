@@ -1,3 +1,11 @@
 {
-    "dotnet.defaultSolution": "AegisAuth.sln"
+    "dotnet.defaultSolution": "AegisAuth.sln",
+    "editor.tabCompletion": "on",
+    "editor.snippetSuggestions": "inline",
+    "editor.inlineSuggest.enabled": true,
+    "editor.suggest.showSnippets": true,
+    "[csharp]": {
+        "editor.tabCompletion": "on",
+        "editor.snippetSuggestions": "inline"
+    }
 }
