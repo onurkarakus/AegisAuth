@@ -1,5 +1,6 @@
 using System;
 using AegisAuth.Domain.Common;
+using Ardalis.GuardClauses;
 
 namespace AegisAuth.Domain.Entities;
 
@@ -11,7 +12,7 @@ public class RefreshToken : Entity
     public DateTime ExpiresAt { get; private set; }
     public DateTime? RevokedAt { get; private set; }
     public string? ReplacedByToken { get; private set; }
-    public string DevcieInfo { get; private set; }
+    public string DeviceInfo { get; private set; }
     public string IpAddress { get; private set; }
 
     public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
@@ -20,16 +21,20 @@ public class RefreshToken : Entity
 
     private RefreshToken() { }
 
-    public static RefreshToken Create(string token, Guid userId, Guid clientId, DateTime expiresAt, string deviceInfo, string ipAdddress)
+    public static RefreshToken Create(string token, Guid userId, Guid clientId, DateTime expiresAt, string deviceInfo, string ipAddress)
     {
+        Guard.Against.Null(token, nameof(token));
+        Guard.Against.Null(userId, nameof(userId));
+        Guard.Against.Null(clientId, nameof(clientId));
+
         return new RefreshToken
         {
             Token = token,
             UserId = userId,
             ClientId = clientId,
             ExpiresAt = expiresAt,
-            DevcieInfo = deviceInfo,
-            IpAddress = ipAdddress
+            DeviceInfo = deviceInfo,
+            IpAddress = ipAddress
         };
     }
 

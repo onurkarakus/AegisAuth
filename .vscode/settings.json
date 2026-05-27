@@ -4,8 +4,37 @@
     "editor.snippetSuggestions": "inline",
     "editor.inlineSuggest.enabled": true,
     "editor.suggest.showSnippets": true,
+    "editor.autoIndent": "full",
+    "editor.useTabStops": true,
+    "editor.stickyTabStops": true,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4,
+    "editor.wordWrap": "off",
+    "editor.minimap.enabled": false,
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": false,
+    "editor.autoClosingBrackets": "always",
+    "editor.matchBrackets": "always",
+    "editor.renderWhitespace": "boundary",
+    "editor.cursorSurroundingLines": 3,
+    "editor.cursorSurroundingLinesStyle": "default",
+    "editor.quickSuggestionsDelay": 50,
+    "editor.suggestSelection": "first",
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.trimAutoWhitespace": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true,
+        "**/.vs": true
+    },
     "[csharp]": {
         "editor.tabCompletion": "on",
-        "editor.snippetSuggestions": "inline"
+        "editor.snippetSuggestions": "inline",
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true
     }
 }
