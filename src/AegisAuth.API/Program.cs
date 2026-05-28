@@ -1,4 +1,6 @@
 
+using AegisAuth.Persistence;
+
 namespace AegisAuth.API;
 
 public class Program
@@ -12,6 +14,8 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
+
+        builder.Services.AddPersistenceServices(builder.Configuration);
 
         var app = builder.Build();
 

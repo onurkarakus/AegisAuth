@@ -7,13 +7,14 @@ public class User : Entity
 {
     public string Email { get; private set; }
     public string Username { get; private set; }
+    public string FullName { get; private set; }
     public string PasswordHash { get; private set; }
     public bool EmailConfirmed { get; private set; }
     public bool IsActive { get; private set; }
 
     private User() { }
 
-    public static User Create(string email, string username, string passwordHash)
+    public static User Create(string email, string username, string fullName, string passwordHash)
     {
         if (string.IsNullOrWhiteSpace(email))
         {
@@ -25,10 +26,16 @@ public class User : Entity
             throw new ArgumentException("Username cannot be null or empty.", nameof(username));
         }
 
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            throw new ArgumentException("Full name cannot be null or empty.", nameof(username));
+        }
+
         return new User
         {
             Email = email,
             Username = username,
+            FullName = fullName,
             PasswordHash = passwordHash,
             EmailConfirmed = false,
             IsActive = true
