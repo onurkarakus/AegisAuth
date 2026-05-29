@@ -26,7 +26,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Result<R
 
         var passwordHash = passwordHasher.HashPassword(request.Password);
 
-        var newUser = Domain.Entities.User.Create(request.Email, request.UserName, request.FullName, passwordHash);
+        var newUser = Domain.Entities.User.Create(request.TenantId, request.Email, request.UserName, request.FullName, passwordHash);
         dbContext.Users.Add(newUser);
         await dbContext.SaveChangesAsync(cancellationToken);
 

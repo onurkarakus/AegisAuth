@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
 
 namespace AegisAuth.Application.Features.Auth.Register;
@@ -10,6 +6,9 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserValidator()
     {
+        RuleFor(x => x.TenantId)
+        .NotEmpty().WithMessage("TenantId is required.");
+
         RuleFor(x => x.Email)
         .NotEmpty().WithMessage("E-mail Required.")
         .EmailAddress().WithMessage("Valid E-Mail Is Required.");

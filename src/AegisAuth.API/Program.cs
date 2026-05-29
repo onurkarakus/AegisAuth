@@ -1,6 +1,9 @@
 
+using AegisAuth.API.Extensions;
+using AegisAuth.API.Services;
 using AegisAuth.Application;
 using AegisAuth.Application.Behaviors;
+using AegisAuth.Application.Common.Interfaces;
 using AegisAuth.Infrastructure;
 using AegisAuth.Persistence;
 using Scalar.AspNetCore;
@@ -22,6 +25,9 @@ public static class Program
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices();
+        builder.Services.AddApiServices();
+
+        builder.Services.AddHttpContextAccessor();
 
         var app = builder.Build();
 
