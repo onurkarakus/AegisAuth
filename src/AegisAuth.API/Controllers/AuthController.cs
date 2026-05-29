@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AegisAuth.Application.Extensions;
 using AegisAuth.Application.Features.Auth.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +21,13 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUserCommand command)
+    public async Task<IResult> Register([FromBody] RegisterUserCommand command)
     {
         var result = await _sender.Send(command);
 
-        if (result.IsSuccess)
-        {
-            return Ok(result.Value);
-        }
-
-        return BadRequest(result.Error);
+        return result.MapResult(
+            onSuccess: response => Results.Ok(response),
+            onFailure: result => Results.Problem(result.ToProblemDetails())
+        );
     }
 }
