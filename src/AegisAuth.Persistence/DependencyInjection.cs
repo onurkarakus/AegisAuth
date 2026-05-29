@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AegisAuth.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ public static class DependencyInjection
         }
 
         services.AddDbContext<AegisAuthDbContext>(options => options.UseNpgsql(connectionString));
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<AegisAuthDbContext>());
 
         return services;
     }
