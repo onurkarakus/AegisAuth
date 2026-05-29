@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
+using AegisAuth.Application.Common.Interfaces;
 using AegisAuth.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AegisAuth.Persistence;
 
-public class AegisAuthDbContext : DbContext
+public class AegisAuthDbContext : DbContext, IApplicationDbContext
 {
     public AegisAuthDbContext(DbContextOptions options) : base(options)
     {

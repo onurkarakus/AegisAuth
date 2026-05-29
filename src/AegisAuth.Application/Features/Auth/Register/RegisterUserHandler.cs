@@ -1,45 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using AegisAuth.Domain.Shared;
-using AegisAuth.Persistence;
+using AegisAuth.Application.Common.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AegisAuth.Application.Features.Auth.Register;
 
 public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
 {
-    private readonly AegisAuthDbContext dbContext;
+    private readonly IApplicationDbContext dbContext;
+    private readonly IPasswordHasher passwordHasher;
 
-    public RegisterUserHandler(AegisAuthDbContext dbContext)
+    public RegisterUserHandler(IApplicationDbContext dbContext, IPasswordHasher passwordHasher)
     {
         this.dbContext = dbContext;
+        this.passwordHasher = passwordHasher;
     }
 
     public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        if (dbContext.Users.Any(u => u.Email == request.Email))
+        if (await dbContext.Users.AnyAsync(u => u.Email == request.Email, cancellationToken))
         {
             return Result.Failure<RegisterUserResponse>("Email is already registered.");
         }
 
-        await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-
-
-        var passwordHash = HashPassword(request.Password);
+        var passwordHash = passwordHasher.HashPassword(request.Password);
 
         var newUser = Domain.Entities.User.Create(request.Email, request.UserName, request.FullName, passwordHash);
         dbContext.Users.Add(newUser);
         await dbContext.SaveChangesAsync(cancellationToken);
-        await transaction.CommitAsync(cancellationToken);
 
         return Result.Success(new RegisterUserResponse(request.Email, "User registered successfully.", newUser.Id.ToString()));
-    }
-
-    private string HashPassword(string password)
-    {
-        return BCrypt.Net.BCrypt.EnhancedHashPassword(password, workFactor: 12);
     }
 }
