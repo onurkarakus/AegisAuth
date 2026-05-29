@@ -3,6 +3,7 @@ using AegisAuth.Application;
 using AegisAuth.Application.Behaviors;
 using AegisAuth.Infrastructure;
 using AegisAuth.Persistence;
+using Scalar.AspNetCore;
 
 namespace AegisAuth.API;
 
@@ -28,6 +29,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
+            app.MapScalarApiReference();
         }
 
         app.UseHttpsRedirection();
