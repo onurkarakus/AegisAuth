@@ -1,5 +1,7 @@
 
+using AegisAuth.Application;
 using AegisAuth.Application.Behaviors;
+using AegisAuth.Infrastructure;
 using AegisAuth.Persistence;
 
 namespace AegisAuth.API;
@@ -17,12 +19,8 @@ public class Program
         builder.Services.AddOpenApi();
 
         builder.Services.AddPersistenceServices(builder.Configuration);
-
-        builder.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssemblyContaining<Program>();
-            cfg.AddBehavior(typeof(ValidationBehavior<,>));
-        });
+        builder.Services.AddApplicationServices();
+        builder.Services.AddInfrastructureServices();
 
         var app = builder.Build();
 

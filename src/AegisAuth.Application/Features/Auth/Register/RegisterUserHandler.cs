@@ -1,4 +1,5 @@
 using AegisAuth.Domain.Shared;
+using AegisAuth.Domain.Errors;
 using AegisAuth.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Result<R
     {
         if (await dbContext.Users.AnyAsync(u => u.Email == request.Email, cancellationToken))
         {
-            return Result.Failure<RegisterUserResponse>("Email is already registered.");
+            return Result.Failure<RegisterUserResponse>(DomainErrors.ValidationErrors.ValidationFailed);
         }
 
         var passwordHash = passwordHasher.HashPassword(request.Password);
