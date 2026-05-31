@@ -20,9 +20,9 @@ public class AegisAuthDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasQueryFilter(e => !currentTenantService.TenantId.HasValue || e.TenantId == currentTenantService.TenantId.Value);
-        modelBuilder.Entity<Client>().HasQueryFilter(e => !currentTenantService.TenantId.HasValue || e.TenantId == currentTenantService.TenantId.Value);
-        modelBuilder.Entity<RefreshToken>().HasQueryFilter(e => !currentTenantService.TenantId.HasValue || e.TenantId == currentTenantService.TenantId.Value);
+        modelBuilder.Entity<User>().HasQueryFilter(e => e.TenantId == currentTenantService.TenantId.Value);
+        modelBuilder.Entity<Client>().HasQueryFilter(e => e.TenantId == currentTenantService.TenantId.Value);
+        modelBuilder.Entity<RefreshToken>().HasQueryFilter(e => e.TenantId == currentTenantService.TenantId.Value);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AegisAuthDbContext).Assembly);
         base.OnModelCreating(modelBuilder);

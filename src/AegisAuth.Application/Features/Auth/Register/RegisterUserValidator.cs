@@ -6,11 +6,8 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserValidator()
     {
-        RuleFor(x => x.TenantId)
-        .NotEmpty().WithMessage("TenantId is required.");
-
         RuleFor(x => x.Email)
-        .NotEmpty().WithMessage("E-mail Required.")
+        .NotEmpty().WithMessage("E-mail Is Required.")
         .EmailAddress().WithMessage("Valid E-Mail Is Required.");
 
         RuleFor(x => x.UserName)

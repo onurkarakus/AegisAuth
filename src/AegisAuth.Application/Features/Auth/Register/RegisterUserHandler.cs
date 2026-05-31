@@ -10,23 +10,31 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Result<R
 {
     private readonly IApplicationDbContext dbContext;
     private readonly IPasswordHasher passwordHasher;
+    private readonly ICurrentTenantService currentTenantService;
 
-    public RegisterUserHandler(IApplicationDbContext dbContext, IPasswordHasher passwordHasher)
+    public RegisterUserHandler(IApplicationDbContext dbContext, IPasswordHasher passwordHasher, ICurrentTenantService currentTenantService)
     {
         this.dbContext = dbContext;
         this.passwordHasher = passwordHasher;
+        this.currentTenantService = currentTenantService;
     }
 
     public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         if (await dbContext.Users.AnyAsync(u => u.Email == request.Email, cancellationToken))
         {
-            return Result.Failure<RegisterUserResponse>(DomainErrors.ValidationErrors.ValidationFailed);
+            return Result.Failure<RegisterUserResponse>(DomainErrors.Auth.UserAlreadyExists);
         }
 
         var passwordHash = passwordHasher.HashPassword(request.Password);
+        var tenantId = currentTenantService.TenantId.Value;
 
-        var newUser = Domain.Entities.User.Create(request.TenantId, request.Email, request.UserName, request.FullName, passwordHash);
+        if (tenantId == Guid.Empty)
+        {
+            return Result.Failure<RegisterUserResponse>(DomainErrors.Auth.TenantNotFound);
+        }
+
+        var newUser = Domain.Entities.User.Create(tenantId, request.Email, request.UserName, request.FullName, passwordHash);
         dbContext.Users.Add(newUser);
         await dbContext.SaveChangesAsync(cancellationToken);
 

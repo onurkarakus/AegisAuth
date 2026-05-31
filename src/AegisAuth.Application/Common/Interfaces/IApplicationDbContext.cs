@@ -12,5 +12,6 @@ public interface IApplicationDbContext
     DbSet<User> Users { get; set; }
     DbSet<Client> Clients { get; set; }
     DbSet<RefreshToken> RefreshTokens { get; set; }
+    DbSet<Tenant> Tenants { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

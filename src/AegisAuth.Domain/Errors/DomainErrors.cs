@@ -17,5 +17,14 @@ public static class DomainErrors
         public static readonly Error MinLengthRequired = Error.Validation("VAL_005", "Min Length Required", "The field '{field}' must be at least {min} characters.");
     }
 
+    public static class Auth
+    {
+        public static readonly Error TenantNotFound = Error.NotFound("AUTH_001", "Tenant Not Found", "The specified tenant was not found.");
+        public static readonly Error UserAlreadyExists = Error.Conflict("AUTH_002", "User Already Exists", "A user with the specified email already exists.");
+        public static readonly Error InvalidCredentials = Error.Unauthorized("AUTH_003", "Invalid Credentials", "The provided credentials are invalid.");
+        public static readonly Error RefreshTokenExpired = Error.Unauthorized("AUTH_004", "Refresh Token Expired", "The refresh token has expired.");
+        public static readonly Error RefreshTokenInvalid = Error.Unauthorized("AUTH_005", "Refresh Token Invalid", "The refresh token is invalid.");
+    }
+
 
 }
