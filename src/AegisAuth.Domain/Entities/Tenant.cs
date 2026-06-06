@@ -17,6 +17,10 @@ public class Tenant : Entity
     public ICollection<User> Users { get; set; } = [];
     public ICollection<Client> Clients { get; set; } = [];
     public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+    public ICollection<Role> Roles { get; set; } = [];
+    public ICollection<Scope> Scopes { get; set; } = [];
+    public ICollection<UserRole> UserRoles { get; set; } = [];
+    public ICollection<ClientScope> ClientScopes { get; set; } = [];
 
     private Tenant() { }
 

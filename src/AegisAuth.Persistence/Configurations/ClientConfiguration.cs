@@ -17,5 +17,10 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 
         builder.Property(c => c.Name).IsRequired().HasMaxLength(200);
         builder.Property(c => c.ClientSecretHash).IsRequired();
+
+        builder.HasMany(c => c.ClientScopes)
+            .WithOne(cs => cs.Client)
+            .HasForeignKey(cs => cs.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

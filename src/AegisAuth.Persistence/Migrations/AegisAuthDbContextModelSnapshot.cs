@@ -64,6 +64,35 @@ namespace AegisAuth.Persistence.Migrations
                     b.ToTable("Clients", (string)null);
                 });
 
+            modelBuilder.Entity("AegisAuth.Domain.Entities.ClientScope", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ScopeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("ClientId", "ScopeId");
+
+                    b.HasIndex("ScopeId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("ClientScopes", (string)null);
+                });
+
             modelBuilder.Entity("AegisAuth.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -120,6 +149,74 @@ namespace AegisAuth.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Scope", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Scopes", (string)null);
                 });
 
             modelBuilder.Entity("AegisAuth.Domain.Entities.Tenant", b =>
@@ -229,6 +326,35 @@ namespace AegisAuth.Persistence.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("AegisAuth.Domain.Entities.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("UserRoles", (string)null);
+                });
+
             modelBuilder.Entity("AegisAuth.Domain.Entities.Client", b =>
                 {
                     b.HasOne("AegisAuth.Domain.Entities.Tenant", "Tenant")
@@ -236,6 +362,33 @@ namespace AegisAuth.Persistence.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.ClientScope", b =>
+                {
+                    b.HasOne("AegisAuth.Domain.Entities.Client", "Client")
+                        .WithMany("ClientScopes")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AegisAuth.Domain.Entities.Scope", "Scope")
+                        .WithMany("ClientScopes")
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AegisAuth.Domain.Entities.Tenant", "Tenant")
+                        .WithMany("ClientScopes")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Scope");
 
                     b.Navigation("Tenant");
                 });
@@ -267,6 +420,28 @@ namespace AegisAuth.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Role", b =>
+                {
+                    b.HasOne("AegisAuth.Domain.Entities.Tenant", "Tenant")
+                        .WithMany("Roles")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Scope", b =>
+                {
+                    b.HasOne("AegisAuth.Domain.Entities.Tenant", "Tenant")
+                        .WithMany("Scopes")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
+                });
+
             modelBuilder.Entity("AegisAuth.Domain.Entities.User", b =>
                 {
                     b.HasOne("AegisAuth.Domain.Entities.Tenant", "Tenant")
@@ -278,13 +453,68 @@ namespace AegisAuth.Persistence.Migrations
                     b.Navigation("Tenant");
                 });
 
+            modelBuilder.Entity("AegisAuth.Domain.Entities.UserRole", b =>
+                {
+                    b.HasOne("AegisAuth.Domain.Entities.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AegisAuth.Domain.Entities.Tenant", "Tenant")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AegisAuth.Domain.Entities.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("Tenant");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Client", b =>
+                {
+                    b.Navigation("ClientScopes");
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.Scope", b =>
+                {
+                    b.Navigation("ClientScopes");
+                });
+
             modelBuilder.Entity("AegisAuth.Domain.Entities.Tenant", b =>
                 {
+                    b.Navigation("ClientScopes");
+
                     b.Navigation("Clients");
 
                     b.Navigation("RefreshTokens");
 
+                    b.Navigation("Roles");
+
+                    b.Navigation("Scopes");
+
+                    b.Navigation("UserRoles");
+
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("AegisAuth.Domain.Entities.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

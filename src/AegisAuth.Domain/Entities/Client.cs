@@ -12,6 +12,7 @@ public class Client : Entity
 
     // Navigation properties
     public Tenant Tenant { get; set; } = null!;
+    public ICollection<ClientScope> ClientScopes { get; private set; }
 
     private Client() { }
 

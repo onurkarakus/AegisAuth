@@ -37,5 +37,15 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
             .WithOne(rt => rt.Tenant)
             .HasForeignKey(rt => rt.TenantId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(t => t.Roles)
+            .WithOne(r => r.Tenant)
+            .HasForeignKey(r => r.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(t => t.Scopes)
+            .WithOne(s => s.Tenant)
+            .HasForeignKey(s => s.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

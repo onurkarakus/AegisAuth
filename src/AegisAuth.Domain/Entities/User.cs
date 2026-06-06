@@ -15,6 +15,8 @@ public class User : Entity
     // Navigation properties
     public Tenant Tenant { get; set; } = null!;
 
+    public ICollection<UserRole> UserRoles { get; private set; }
+
     private User() { }
 
     public static User Create(Guid tenantId, string email, string username, string fullName, string passwordHash)
