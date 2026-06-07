@@ -1,6 +1,8 @@
+using AegisAuth.Domain.Responses;
+
 namespace AegisAuth.Application.Common.Interfaces;
 
 public interface ITokenService
 {
-    string GenerateToken(string clientId, string clientSecret);
+    GenerateJwtTokenResponse GenerateToken(string clientId, IEnumerable<string> scopes);
 }

@@ -24,7 +24,7 @@ public static class DomainErrors
         public static readonly Error InvalidCredentials = Error.Unauthorized("AUTH_003", "Invalid Credentials", "The provided credentials are invalid.");
         public static readonly Error RefreshTokenExpired = Error.Unauthorized("AUTH_004", "Refresh Token Expired", "The refresh token has expired.");
         public static readonly Error RefreshTokenInvalid = Error.Unauthorized("AUTH_005", "Refresh Token Invalid", "The refresh token is invalid.");
+        public static readonly Error UnsupportedGrantType = Error.Validation("AUTH_006", "Unsupported Grant Type", "The specified grant type is not supported.");
+        public static readonly Error InvalidClient = Error.Unauthorized("AUTH_007", "Invalid Client", "The specified client is invalid.");
     }
-
-
 }

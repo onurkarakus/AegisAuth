@@ -90,6 +90,9 @@ namespace AegisAuth.Persistence.Migrations
 
                     b.HasIndex("TenantId");
 
+                    b.HasIndex("ClientId", "ScopeId")
+                        .IsUnique();
+
                     b.ToTable("ClientScopes", (string)null);
                 });
 

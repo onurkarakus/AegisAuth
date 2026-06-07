@@ -246,6 +246,12 @@ namespace AegisAuth.Persistence.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClientScopes_ClientId_ScopeId",
+                table: "ClientScopes",
+                columns: new[] { "ClientId", "ScopeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClientScopes_ScopeId",
                 table: "ClientScopes",
                 column: "ScopeId");

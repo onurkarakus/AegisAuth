@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AegisAuth.Persistence.Migrations
 {
     [DbContext(typeof(AegisAuthDbContext))]
-    [Migration("20260606202445_InitialCreate")]
+    [Migration("20260606205253_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -92,6 +92,9 @@ namespace AegisAuth.Persistence.Migrations
                     b.HasIndex("ScopeId");
 
                     b.HasIndex("TenantId");
+
+                    b.HasIndex("ClientId", "ScopeId")
+                        .IsUnique();
 
                     b.ToTable("ClientScopes", (string)null);
                 });

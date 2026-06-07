@@ -30,4 +30,22 @@ public class AuthController : ControllerBase
             onFailure: result => Results.Problem(result.ToProblemDetails())
         );
     }
+
+    [HttpPost("connect/token")]
+    public async Task<IResult> GetToken([FromForm] string grant_type, [FromForm] string client_id, [FromForm] string client_secret)
+    {
+        var command = new Application.Features.OAuth.Token.GenerateTokenCommand
+        (
+            GrantType: grant_type,
+            ClientId: client_id,
+            ClientSecret: client_secret
+        );
+
+        var result = await _sender.Send(command);
+
+        return result.MapResult(
+            onSuccess: response => Results.Ok(response),
+            onFailure: result => Results.Problem(result.ToProblemDetails())
+        );
+    }
 }

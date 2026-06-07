@@ -11,6 +11,7 @@ public class ClientScopeConfiguration : IEntityTypeConfiguration<ClientScope>
         builder.ToTable("ClientScopes");
 
         builder.HasKey(cs => new { cs.ClientId, cs.ScopeId });
+        builder.HasIndex(cs => new { cs.ClientId, cs.ScopeId }).IsUnique();
 
         builder.HasOne(cs => cs.Tenant)
             .WithMany(t => t.ClientScopes)
