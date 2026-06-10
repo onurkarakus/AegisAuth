@@ -82,7 +82,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, Result<LoginResponse>>
             ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
         };
 
-        await httpContextAccessor.HttpContext?.SignInAsync("AuthForgeCookie", new ClaimsPrincipal(claimsIdentity), authProperties);
+        await httpContextAccessor.HttpContext?.SignInAsync("AegisAuthForgeCookie", new ClaimsPrincipal(claimsIdentity), authProperties);
 
         return Result.Success(new LoginResponse { Message = "Logged in successfully" });
     }
