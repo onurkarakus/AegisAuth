@@ -31,6 +31,13 @@ public static class Program
         builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
+        .AddCookie("AuthForgeCookie", options =>
+        {
+            options.Cookie.Name = "AuthForgeCookie";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+            options.LoginPath = "/api/auth/login";
+        })
         .AddJwtBearer(jwtOptions =>
         {
             jwtOptions.TokenValidationParameters = new TokenValidationParameters

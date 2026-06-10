@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AegisAuth.Application.Extensions;
+using AegisAuth.Application.Features.Auth.Login;
 using AegisAuth.Application.Features.Auth.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -55,5 +56,16 @@ public class AuthController : ControllerBase
         }
 
         return Results.Ok(result.Value);
+    }
+
+    [HttpPost("login")]
+    public async Task<IResult> Login([FromBody] LoginCommand command)
+    {
+        var result = await _sender.Send(command);
+
+        return result.MapResult(
+            onSuccess: response => Results.Ok(response),
+            onFailure: result => Results.Problem(result.ToProblemDetails())
+        );
     }
 }

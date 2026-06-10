@@ -21,6 +21,11 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Result<R
 
     public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+        if (currentTenantService.TenantId is null)
+        {
+            return Result.Failure<RegisterUserResponse>(DomainErrors.Auth.TenantNotFound);
+        }
+
         if (await dbContext.Users.AnyAsync(u => u.Email == request.Email, cancellationToken))
         {
             return Result.Failure<RegisterUserResponse>(DomainErrors.Auth.UserAlreadyExists);
