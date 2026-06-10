@@ -6,6 +6,7 @@ using AegisAuth.Application.Behaviors;
 using AegisAuth.Application.Common.Interfaces;
 using AegisAuth.Infrastructure;
 using AegisAuth.Persistence;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
 namespace AegisAuth.API;
@@ -29,6 +30,26 @@ public static class Program
 
         builder.Services.AddHttpContextAccessor();
 
+        builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(jwtOptions =>
+        {
+            jwtOptions.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidAudiences = builder.Configuration.GetSection("Api:ValidAudiences").Get<string[]>(),
+                ValidIssuers = builder.Configuration.GetSection("Api:ValidIssuers").Get<string[]>(),
+                IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            };
+
+        });
+
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("RequireApiReadScope", policy => policy.RequireClaim("scope", "api.read"));
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -39,7 +60,7 @@ public static class Program
         }
 
         app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
 

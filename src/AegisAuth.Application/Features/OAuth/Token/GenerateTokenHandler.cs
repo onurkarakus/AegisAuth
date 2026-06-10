@@ -8,6 +8,7 @@ namespace AegisAuth.Application.Features.OAuth.Token;
 
 public class GenerateTokenHandler : IRequestHandler<GenerateTokenCommand, Result<GenerateTokenResponse>>
 {
+    private const string CLIENT_CREDENTIALS_KEY = "client_credentials";
     private readonly IApplicationDbContext dbContext;
     private readonly IPasswordHasher passwordHasher;
     private readonly ITokenService tokenService;
@@ -21,7 +22,7 @@ public class GenerateTokenHandler : IRequestHandler<GenerateTokenCommand, Result
 
     public async Task<Result<GenerateTokenResponse>> Handle(GenerateTokenCommand request, CancellationToken cancellationToken)
     {
-        if (request.GrantType != "client_credentials")
+        if (request.GrantType != CLIENT_CREDENTIALS_KEY)
         {
             return await Task.FromResult(Result.Failure<GenerateTokenResponse>(DomainErrors.Auth.UnsupportedGrantType));
         }

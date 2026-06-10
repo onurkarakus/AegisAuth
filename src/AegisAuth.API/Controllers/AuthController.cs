@@ -43,9 +43,17 @@ public class AuthController : ControllerBase
 
         var result = await _sender.Send(command);
 
-        return result.MapResult(
-            onSuccess: response => Results.Ok(response),
-            onFailure: result => Results.Problem(result.ToProblemDetails())
-        );
+        if (result.IsFailure)
+        {
+            string oauthErrorCode = result.Error.Code == "AUTH_007" ? "invalid_client" : "unsupported_grant_type";
+
+            return Results.Json(new
+            {
+                error = oauthErrorCode,
+                error_description = result.Error.Description
+            }, statusCode: StatusCodes.Status401Unauthorized);
+        }
+
+        return Results.Ok(result.Value);
     }
 }
